@@ -1,0 +1,208 @@
+body {
+    font-family: 'Source Sans Pro';
+    margin: 0;
+    background: #1B2330;
+    overflow: hidden;
+}
+
+#chart {
+    top: 0;
+    right: 0;
+    bottom: 0px;
+    left: 0;
+    position: absolute;
+    overflow-y: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: -1;
+}
+
+#grid {
+    top: 0;
+    right: 0;
+    bottom: 0px;
+    left: 0;
+    position: absolute;
+    overflow: hidden;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.height-grid {
+    position: fixed;
+}
+
+.controls {
+    position: absolute;
+    display: none;
+    bottom: 1em;
+    text-align: center;
+    right: 0;
+    width: 400px;
+}
+
+.current-tide-value {
+    font-size: 55px;
+    font-weight: 700;
+    alignment-baseline: text-before-edge;
+}
+
+.current-time {
+    font-size: 25px;
+    font-weight: 300;
+    alignment-baseline: text-before-edge;
+}
+
+path {
+    stroke: rgb(255, 255, 255);
+    stroke-width: 2px;
+    /* fill: none; */
+    fill: rgb(0, 25, 44);
+}
+ 
+line {
+    stroke: black;
+}
+
+.area {
+    stroke: transparent;
+}
+
+.duckduck {
+    background: red;
+}
+.overlay-test {
+    fill: transparent;
+    stroke: transparent;
+}
+
+.current-marker {
+    stroke: rgba(255, 255, 255, 1);
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+    stroke-linecap: square;
+}
+
+.solar {
+    stroke: rgba(255, 255, 255, 1);
+    stroke-width: 2;
+    shape-rendering: crispEdges;
+    stroke-linecap: square;
+}
+
+.day {
+    fill: rgba(199, 242, 255, 0.09);
+}
+
+.color {
+    fill: none;
+    stroke: rgba(255, 255, 255, 1);
+}
+
+.current-point {
+    stroke-width: 5;
+    fill: white;
+}
+
+.time-label {
+    font-size: 20px;
+    text-anchor: middle;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.date-label {
+    text-anchor: middle;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.time-ticks,
+.time-long-ticks {
+    stroke: rgba(255, 255, 255, 1);
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.height-label {
+    alignment-baseline: text-after-edge;
+    text-anchor: end;
+}
+
+.height-ticks {
+    stroke: rgba(255, 255, 255, 0.16);
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+text {
+    font-family: 'Source Sans Pro';
+    font-size: 22px;
+    font-weight: 300;
+    fill: white;
+}
+
+.styled-select {
+    display: inline-block;
+    position: relative;
+    padding: 3px 5px;
+    margin-top: -3px;
+    cursor: pointer;
+    z-index: 9;
+    font-weight: 400;
+}
+
+.styled-select:hover {
+    color: #fff;
+    background: black;
+}
+
+.styled-select div:after {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid;
+    content: '';
+    margin-top: -3px;
+    margin-left: 4px;
+    position: absolute;
+    top: 50%;
+}
+
+.styled-select:hover div:after {
+    border-top: 6px solid #fff;
+}
+
+.styled-select select {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    position: absolute;
+    border: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.styled-select {
+    position: absolute;
+    right: 0;
+    color: white;
+    font-size: 30px;
+    margin: 1em;
+    padding: .25em 1em .25em .75em;
+    border-radius: .5em;
+    color: #3A3A3A;
+    background: rgb(250, 250, 250);
+}
+
+.current-point {
+    fill: white;
+}
+.horizontal-marker,
+.vertical-marker {
+    fill: white;
+    stroke: white;
+}

@@ -1,0 +1,8 @@
+<div ng-controller="findStation" ng-cloak>
+    <select ng-model="currentStation"
+            styled-select="true"
+            ng-options="(station.name + ', ' + station.state) for station in stationList | orderBy:name"
+            ng-change="setStation()">
+            <option value="" disabled>Choose a station...</option>
+    </select>
+</div>

@@ -1,0 +1,12 @@
+<div data-ng-controller="station" ng-cloak>
+    <select ng-model="currentStation"
+            styled-select="true"
+            ng-options="(station.name + ', ' + station.state) for station in stationList | orderBy:name"
+            placeholder="testing"
+            ng-change="setStation()">
+            <option value="" disabled>Choose a station...</option>
+    </select>
+    <div>
+        <div id="chart" day-graph="chartData"></div>
+    </div>
+</div>
