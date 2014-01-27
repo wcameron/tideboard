@@ -25,9 +25,10 @@ angular.module('tideApp.directives').directive('dayGraph',
                 ,timeLabelFormat: function(time){
                     var hour = time.getHours()
                     if (hour === 0){
-                        return 'midnight'
+                        format = d3.time.format('%b %e')
+                        return format(time)
                     } else if (hour === 12){
-                        return 'noon'
+                        return 'Noon'
                     } else {
                         var format = d3.time.format('%I %p')
                         return format(time)
@@ -41,9 +42,9 @@ angular.module('tideApp.directives').directive('dayGraph',
             this.workspaceHeight = elem.outerHeight()
 
             var margin = {
-                    top: 75
+                    top: 0
                     ,right: 0
-                    ,bottom: 50
+                    ,bottom: 0
                     ,left: 0
                 }
 
@@ -63,7 +64,7 @@ angular.module('tideApp.directives').directive('dayGraph',
 
             var dataLength = self.data.length - 1
 
-            var w = elem.width() * self.times.dayCount
+            var w = elem.width() * (self.times.dayCount * .75)
             var h = this.workspaceHeight - (margin.top + margin.bottom)
 
             if (this.workspaceHeight > elem.width()) {
@@ -229,10 +230,29 @@ angular.module('tideApp.directives').directive('dayGraph',
 
                 var timeLabelAxis = x.copy()
                                      .domain([self.xData[16], self.xData[dataLength - 8]])
-                var tickBaseline = self.workspaceHeight - 60
+                var tickBaseline = self.workspaceHeight - 3
                 var bisect = d3.bisector(function(d){ 
                     return d.date
                 }).left
+
+                g.selectAll('.tick-background')
+                    .data(function(){
+                        return [{test:0}]
+                    })
+                    .enter().append('rect')
+                    .attr('class', 'tick-background')
+                    .attr('x', function(d){
+                        return 0
+                    })
+                    .attr('y', function(d){
+                        return self.workspaceHeight - 43
+                    })
+                    .attr('width', function(d){
+                        return w
+                    })
+                    .attr('height', function(d){
+                        return self.workspaceHeight
+                    })
 
                 g.selectAll('.time-ticks')
                     .data(function(){
@@ -249,7 +269,7 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .attr('x2', function(d){ 
                         return x(d) })
                     .attr('y1', function(d, i){ 
-                        return tickBaseline - 15
+                        return tickBaseline - 10
                     })
                     /*
                     .attr('y1', function(d, i){ 
@@ -272,7 +292,7 @@ angular.module('tideApp.directives').directive('dayGraph',
                         return x(d) 
                     })
                     .attr('y1', function(d, i){ 
-                        return tickBaseline - 25
+                        return tickBaseline - 20
                     })
                     /*
                     .attr('y1', function(d, i){ 
@@ -281,18 +301,41 @@ angular.module('tideApp.directives').directive('dayGraph',
                     })
                     */
 
+                g.selectAll('.midnight-ticks')
+                    .data(timeLabelAxis.ticks(self.times.dayCount))
+                    .enter().append('svg:line')
+                    .attr('class', 'midnight-ticks')
+                    .attr('x1', function(d){ 
+                        return x(d) + 1
+                    })
+                    .attr('y2', function(d, i){ 
+                        return tickBaseline 
+                    })
+                    .attr('x2', function(d){ 
+                        return x(d) + 1
+                    })
+                    .attr('y1', function(d, i){ 
+                        return tickBaseline - 20
+                    })
+
                 g.selectAll('.time-label')
-                    .data(timeLabelAxis.ticks(7 * self.times.dayCount))
+                    .data(timeLabelAxis.ticks(3 * self.times.dayCount))
                     .enter().append('svg:text')
-                    .attr('class', 'time-label')
+                    .attr('class', function(d){
+                        var hour = d.getHours()
+                        if (!(hour % 12)){
+                            return 'time-label special'
+                        }
+                        return 'time-label'
+                    })
                     .text(function(d){
                         return self.helpers.timeLabelFormat(d).replace(/^0+/, '')
                     })
                     .attr('x', function(d){ 
-                        return x(d) 
+                        return x(d) - 2
                     })
                     .attr('y', function(d){
-                        return tickBaseline + 25
+                        return tickBaseline - 30
                     })
                     .attr('text-anchor', 'start')
 
@@ -301,6 +344,7 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .enter().append('svg:text')
                     .attr('class', 'date-label')
                     .text(function(d){
+                        return
                         var date = new Date(d.date.toDateString())
                         d = new Date(date.setHours(12))
                         return self.helpers.displayDateFormat(d)
@@ -316,7 +360,7 @@ angular.module('tideApp.directives').directive('dayGraph',
                         return x(d)
                     })
                     .attr('y', function(d){
-                        return tickBaseline + 45
+                        return tickBaseline - 55
                     })
                     .attr('text-anchor', 'start')
             }
@@ -336,27 +380,15 @@ angular.module('tideApp.directives').directive('dayGraph',
                             .attr('d', line(self.yData))
                             .attr('class', 'color');
 
-                var totalLength = path.node().getTotalLength();
+                var overlay = g.selectAll('.overlay')
+                                .data(self.solar)
+                                .enter().append('g')
 
-                path.attr('stroke-dasharray'
-                          ,totalLength + ' ' + totalLength)
-                    .attr('stroke-dashoffset'
-                          ,totalLength)
-                    .transition()
-                    .duration(200)
-                    .ease('linear')
-                    .attr('stroke-dashoffset', 0);
-
-
-                    var overlay = g.selectAll('.overlay')
-                                    .data(self.solar)
-                                    .enter().append('g')
-
-                    overlay.append("rect")
-                      .attr("class", "overlay-test")
-                      .attr("width", w)
-                      .attr("height", h + margin.top + margin.bottom)
-                      .on("mousemove", swim);
+                overlay.append("rect")
+                  .attr("class", "overlay-test")
+                  .attr("width", w)
+                  .attr("height", h + margin.top + margin.bottom)
+                  .on("mousemove", swim);
 
                 function swim(){
                     var d = d3.mouse(this)
@@ -366,16 +398,9 @@ angular.module('tideApp.directives').directive('dayGraph',
                         return d.date; 
                     }).left
 
-                    var time2 = new Date(time)
-                    var laterTime = new Date(time2.setHours(time2.getHours() + 2))
-
                     var point = bisect(self.data, time)
                     var vertical = y(self.yData[point])
-
-                    var point2 = bisect(self.data, laterTime)
-
                     var horizontal = x(time)
-                    var vertical2 = y(self.yData[point2])
 
                     g.select('.current-point')
                         .attr('cx', function(d){
@@ -398,6 +423,17 @@ angular.module('tideApp.directives').directive('dayGraph',
                         .attr('x2', function(d){
                             return horizontal
                         })
+
+                    g.selectAll('.inspected-tide-value')
+                        .text(function(d){
+                            var height = self.yData[point].toFixed(1) + " ft "
+                            return height
+                        })
+                        .attr('x', function(d){ 
+                            return horizontal - 2
+                        })
+                        .attr('text-anchor', 'start')
+
                 }
             }
 
@@ -414,15 +450,16 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .attr('class', 'current-tide-value')
                     .text(function(d){
                         var height = self.yData[d].toFixed(1)
-                        return height + ' ft' 
+                        return height + '' 
                     })
                     .attr('x', function(d){ 
-                        return x(self.times.current) - 5 
+                        return x(self.times.current) - 5
                     })
                     .attr('y', function(d){
-                        return (20) 
+                        return 65
                     })
                     .attr('text-anchor', 'start')
+                    .append("svg:tspan").text(" ft");
 
                 g.selectAll('.current-time')
                     .data( function(){
@@ -435,13 +472,38 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .enter().append('svg:text')
                     .attr('class', 'current-time')
                     .text(function(d){
-                        return self.helpers.timeFormat(self.times.current) + ' ' + self.times.displayTimezone
+                        return self.helpers.timeFormat(self.times.current).replace(/^0+/, '') + ' ' + self.times.displayTimezone
                     })
                     .attr('x', function(d){ 
-                        return x(self.times.current)  - 5 
+                        return x(self.times.current) - 3
                     })
                     .attr('y', function(d){
                         return (20 + 55) 
+                    })
+                    .attr('text-anchor', 'start')
+
+
+                /* parts that scroll */
+
+                g.selectAll('.inspected-tide-value')
+                    .data( function(){
+                        var bisect = d3.bisector(function(d) { 
+                            return d.date; 
+                        }).left
+                        var point = bisect(self.data, self.times.current)
+                        return [point]
+                    })
+                    .enter().append('svg:text')
+                    .attr('class', 'inspected-tide-value')
+                    .text(function(d){
+                        var height = self.yData[d].toFixed(1)
+                        return height + ' ft' 
+                    })
+                    .attr('x', function(d){ 
+                        return x(self.times.current) - 5 
+                    })
+                    .attr('y', function(d){
+                        return self.workspaceHeight - 65
                     })
                     .attr('text-anchor', 'start')
 
@@ -473,13 +535,13 @@ angular.module('tideApp.directives').directive('dayGraph',
                         return x(self.times.current)
                     })
                     .attr('y2', function(d, i){ 
-                        return self.workspaceHeight - 60
+                        return self.workspaceHeight - 3
                     })
                     .attr('x2', function(d){ 
                         return x(self.times.current)
                     })
                     .attr('y1', function(d, i){ 
-                        return self.workspaceHeight - 70
+                        return self.workspaceHeight - 20
                     })
             }
 
@@ -539,6 +601,50 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .attr('x', function(d){ 
                         return x(self.times.current)  - 5 
                     })
+
+
+                g.selectAll('.current-tide-value')
+                    .data( function(){
+                        var bisect = d3.bisector(function(d) { 
+                            return d.date; 
+                        }).left
+                        var point = bisect(self.data, self.times.current)
+                        return [point]
+                    })
+                    .enter().append('svg:text')
+                    .attr('class', 'current-tide-value')
+                    .text(function(d){
+                        var height = self.yData[d].toFixed(1)
+                        return height + ' ft' 
+                    })
+                    .attr('x', function(d){ 
+                        return x(self.times.current) - 5 
+                    })
+                    .attr('y', function(d){
+                        return (15) 
+                    })
+                    .attr('text-anchor', 'start')
+
+                g.selectAll('.current-time')
+                    .data( function(){
+                        var bisect = d3.bisector(function(d){ 
+                            return d.date;
+                        }).left
+                        var point = bisect(self.data, self.times.current)
+                        return [point]
+                    })
+                    .enter().append('svg:text')
+                    .attr('class', 'current-time')
+                    .text(function(d){
+                        return self.helpers.timeFormat(self.times.current) + ' ' + self.times.displayTimezone
+                    })
+                    .attr('x', function(d){ 
+                        return x(self.times.current) - 3
+                    })
+                    .attr('y', function(d){
+                        return (20 + 55) 
+                    })
+                    .attr('text-anchor', 'start')
 
             }
 
