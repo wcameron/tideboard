@@ -3,6 +3,7 @@
 /* Controllers */
 
 angular.module('tideApp.controllers', [])
+
 .controller('findStation', ['$scope', '$location', 'stationsService', 
     function($scope, $location, stations) {
 
@@ -21,8 +22,10 @@ angular.module('tideApp.controllers', [])
 
         var fetchStation = stations.findLocation()
         fetchStation.then(foundStation)
+    }
 
-}])
+])
+
 .controller('station', ['$scope', '$location', '$window', '$routeParams', 'solarService', 'stationsService', 'tideService', 
     function($scope, $location, $window, $routeParams, solarService, stations, tides) {
 

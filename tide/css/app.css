@@ -87,10 +87,7 @@ line {
     stroke: transparent;
 }
 
-.duckduck {
-    background: red;
-}
-.overlay-test {
+.overlay {
     fill: transparent;
     stroke: transparent;
 }

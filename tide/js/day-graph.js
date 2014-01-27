@@ -96,7 +96,9 @@ angular.module('tideApp.directives').directive('dayGraph',
 
 
             var gridElem = angular.element('<div id="grid">')
+
             elem.after(gridElem)
+
             var heightLabelAxis = y.copy()
                                    .domain([(d3.min(self.yData) - tideDiff * .15)
                                            ,(d3.max(self.yData) + tideDiff * .15)])
@@ -105,28 +107,6 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .attr('width', w)
                     .attr('height', h + margin.top + margin.bottom)
             var l = grid.append('svg:g').attr('class','height-grid');
-
-            this.updateTime = function() {
-                /*
-                self.times.current = new Date(self.times.current)
-                self.times.current = self.times.current.setHours(self.times.current.getHours() + 1)
-                self.times.current = new Date(self.times.current)
-                */
-                self.times.current = new Date()
-                redrawCurrentLabelsAndMarker(self.updateInterval)
-            }
-
-            this.drawChart = function() {
-                drawCurrentMarker()
-                drawTideArea()
-                drawDaylightMarkers()
-                drawTicksAndLabels()
-                drawLine()
-                drawCurrentLabels()
-                drawHeightGrid()
-            }
-
-            this.drawChart()
 
             function drawCurrentMarker(){
                 g.selectAll('.current-marker')
@@ -271,12 +251,6 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .attr('y1', function(d, i){ 
                         return tickBaseline - 10
                     })
-                    /*
-                    .attr('y1', function(d, i){ 
-                        var point = bisect(self.data, d)
-                        return y(self.data[point].value)
-                    })
-                    */
 
                 g.selectAll('.time-long-ticks')
                     .data(timeLabelAxis.ticks(7 * self.times.dayCount))
@@ -294,12 +268,6 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .attr('y1', function(d, i){ 
                         return tickBaseline - 20
                     })
-                    /*
-                    .attr('y1', function(d, i){ 
-                        var point = bisect(self.data, d)
-                        return y(self.data[point].value)
-                    })
-                    */
 
                 g.selectAll('.midnight-ticks')
                     .data(timeLabelAxis.ticks(self.times.dayCount))
@@ -381,16 +349,16 @@ angular.module('tideApp.directives').directive('dayGraph',
                             .attr('class', 'color');
 
                 var overlay = g.selectAll('.overlay')
-                                .data(self.solar)
+                                .data([{}])
                                 .enter().append('g')
 
                 overlay.append("rect")
-                  .attr("class", "overlay-test")
+                  .attr("class", "overlay")
                   .attr("width", w)
                   .attr("height", h + margin.top + margin.bottom)
-                  .on("mousemove", swim);
+                  .on("mousemove", hover);
 
-                function swim(){
+                function hover(){
                     var d = d3.mouse(this)
                     var time = x.invert(d[0])
 
@@ -497,7 +465,7 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .attr('class', 'inspected-tide-value')
                     .text(function(d){
                         var height = self.yData[d].toFixed(1)
-                        return height + ' ft' 
+                        return height + ' ft'
                     })
                     .attr('x', function(d){ 
                         return x(self.times.current) - 5 
@@ -580,12 +548,14 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .transition().duration(speed).ease('linear')
                     .text(function(d){
                         var height = self.yData[d].toFixed(1)
-                        return height + ' ft' 
+                        return height
                     })
                     .attr('x', function(d){ 
                         return x(self.times.current) - 5 
                     })
+                    .append("svg:tspan").text(" ft");
 
+                // one of the redraws?
                 g.selectAll('.current-time')
                     .data( function(){
                         var bisect = d3.bisector(function(d){ 
@@ -596,7 +566,7 @@ angular.module('tideApp.directives').directive('dayGraph',
                     })
                     .transition().duration(5000).ease('linear')
                     .text(function(d){
-                        return self.helpers.timeFormat(self.times.current) + ' ' + self.times.displayTimezone
+                        return self.helpers.timeFormat(self.times.current).replace(/^0+/, '') + ' ' + self.times.displayTimezone
                     })
                     .attr('x', function(d){ 
                         return x(self.times.current)  - 5 
@@ -615,7 +585,7 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .attr('class', 'current-tide-value')
                     .text(function(d){
                         var height = self.yData[d].toFixed(1)
-                        return height + ' ft' 
+                        return height
                     })
                     .attr('x', function(d){ 
                         return x(self.times.current) - 5 
@@ -624,7 +594,9 @@ angular.module('tideApp.directives').directive('dayGraph',
                         return (15) 
                     })
                     .attr('text-anchor', 'start')
+                    .append("svg:tspan").text(" ft");
 
+                // one of the redraws?
                 g.selectAll('.current-time')
                     .data( function(){
                         var bisect = d3.bisector(function(d){ 
@@ -636,7 +608,7 @@ angular.module('tideApp.directives').directive('dayGraph',
                     .enter().append('svg:text')
                     .attr('class', 'current-time')
                     .text(function(d){
-                        return self.helpers.timeFormat(self.times.current) + ' ' + self.times.displayTimezone
+                        return self.helpers.timeFormat(self.times.current).replace(/^0+/, '') + ' ' + self.times.displayTimezone
                     })
                     .attr('x', function(d){ 
                         return x(self.times.current) - 3
@@ -698,6 +670,24 @@ angular.module('tideApp.directives').directive('dayGraph',
                         return y(self.data[d].value)
                     })
             }
+
+            this.updateTime = function() {
+                self.times.current = new Date()
+                redrawCurrentLabelsAndMarker(self.updateInterval)
+            }
+
+            this.drawChart = function() {
+                drawCurrentMarker()
+                drawTideArea()
+                drawDaylightMarkers()
+                drawTicksAndLabels()
+                drawLine()
+                drawCurrentLabels()
+                drawHeightGrid()
+            }
+
+            this.drawChart()
+
         }
     }
 
