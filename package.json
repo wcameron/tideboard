@@ -1,11 +1,27 @@
 {
-  "name": "angualrjs-seed",
-  "description": "A starter project for angular js",
+  "name": "Tides",
+  "description": "View daily tides and daylight.",
+  "browser": {
+    "angular": "./tide/lib/angular-1.2.2/angular-index.js",
+    "angular-route": "./tide/lib/angular-1.2.2/angular-route.min.js"
+  },
+  "dependencies": {
+    "d3": "*",
+    "moment": "*",
+    "SunCalc": "*",
+    "lodash": "*"
+  },
   "devDependencies": {
-        "phantomjs" : "*",
-        "karma" : "*",
-        "karma-junit-reporter" : "*",    
-        "karma-jasmine" : "*",
-        "karma-ng-scenario" : "*"
-    }
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-uglify": "^0.5.1",
+    "karma": "*",
+    "karma-jasmine": "*",
+    "karma-junit-reporter": "*",
+    "karma-ng-scenario": "*",
+    "node-static": "^0.7.4",
+    "phantomjs": "*"
+  },
+  "version": "0.1.0"
 }

@@ -2,25 +2,12 @@
   font-family: 'moon';
   src: url("../fonts/moon.woff") format('woff');
 }
-@font-face {
-  font-family: 'Fira Sans';
-  font-weight: 200;
-  src: url("../fonts/FiraSans-ExtraLight.woff") format('woff');
-}
-@font-face {
-  font-family: 'Fira Sans';
-  font-weight: 300;
-  src: url("../fonts/FiraSans-Light.woff") format('woff');
-}
-@font-face {
-  font-family: 'Fira Sans';
-  font-weight: 500;
-  src: url("../fonts/FiraSans-Medium.woff") format('woff');
-}
 body {
   font-family: 'Fira Sans', sans-serif;
   margin: 0;
-  background: #fff;
+  background: #0b0b0b;
+/* background: url('../img/subtle_carbon_@2X.png'); */
+/* background-size: 18px 15px; */
   overflow: hidden;
 }
 a {
@@ -37,52 +24,24 @@ a.previous {
   right: auto;
   left: 0%;
 }
-.current-time-label {
-  font-size: 2.5rem;
-  font-weight: 200;
-  margin: 1rem 0 0 2.75rem;
-  float: left;
-}
-.nearest-tide-label {
-  font-size: 1.25rem;
-  font-weight: 200;
-  color: #808080;
-  margin: 1.75rem 2.75rem 0 1rem;
-  float: right;
-}
-.chart-view {
-  position: relative;
-  clear: both;
-  top: -2.25rem;
-}
 #chart {
-  top: 0;
+  top: auto;
   right: 3rem;
-  bottom: 0;
+  bottom: -7px;
   left: 3rem;
   position: absolute;
   overflow-y: hidden;
+  background: url("../img/subtle_carbon_@2X.png");
+  background-blend-mode: screen;
+  background-size: 18px 15px;
   overflow-x: auto;
-  background: transparent;
   -webkit-overflow-scrolling: touch;
   z-index: -1;
 }
-#chart:before {
-  display: block;
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 45px;
-  right: 0;
-  top: 50px;
-  background: rgba(0,0,0,0.12);
-  z-index: -4;
-}
 #grid {
-  top: 0rem;
-  right: 0rem;
-  bottom: auto;
-  width: 100%;
+  top: auto;
+  right: 3rem;
+  bottom: -7px;
   left: 0rem;
   position: absolute;
   overflow: hidden;
@@ -126,21 +85,21 @@ a.previous {
 .inspected-time,
 .inspected-tide-value {
   font-size: 22px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   alignment-baseline: text-after-edge;
 }
 path {
-  stroke: #000;
+  stroke: #c70000;
   stroke-width: 2px;
-/* fill: none */
-  fill: #000;
+/* fill: none; */
+  fill: #c70000;
 }
 line {
   stroke: #000;
 }
 .area {
   stroke: transparent;
-/* fill: #A9A9A9 */
+/* fill: #A9A9A9; */
   fill: transparent;
   display: none;
 }
@@ -152,98 +111,94 @@ line {
   stroke: transparent;
 }
 .current-marker {
-  stroke: #000;
+  stroke: #c70000;
   stroke-width: 1;
   shape-rendering: crispEdges;
   stroke-linecap: square;
 }
 .solar {
-  stroke: #000;
+  stroke: #c70000;
   stroke-width: 2;
   shape-rendering: crispEdges;
   stroke-linecap: square;
 }
-.day-naut-dawn {
-  fill: rgba(255,255,255,0.31);
-}
-.day-dawn {
-  fill: rgba(255,255,255,0.71);
-}
-.day-sun {
-  fill: #fff;
+.day {
+  fill: rgba(199,0,0,0.1);
 }
 .color {
   fill: none;
-  stroke: #000;
+  stroke: #c70000;
 }
 .current-point {
   stroke-width: 5;
-  fill: #000;
+  fill: #c70000;
 }
 .time-label {
-  font-size: 1rem;
-  text-anchor: middle;
+  font-size: 22px;
+  text-anchor: start;
   font-weight: 300;
-  text-transform: uppercase;
+  text-transform: lowercase;
 }
 .date-label {
   text-anchor: middle;
   font-size: 14px;
   text-transform: uppercase;
 }
-.time-tick {
-  stroke: #000;
+.time-ticks,
+.time-long-ticks,
+.midnight-ticks {
+  stroke: #c70000;
   stroke-width: 1;
   shape-rendering: crispEdges;
-}
-.thick-time-tick {
-  stroke: #000;
-  stroke-width: 2;
-  shape-rendering: crispEdges;
-}
-.time-circle {
-  stroke: #000;
-  stroke-width: 1;
 }
 .midnight-ticks {
   stroke-width: 4;
 }
 .height-label {
-  font-size: 1rem;
-  font-weight: 300;
-  alignment-baseline: middle;
+  alignment-baseline: text-after-edge;
   text-anchor: end;
 }
-.right-height-label {
-  font-size: 1rem;
-  font-weight: 300;
-  alignment-baseline: middle;
-  text-anchor: start;
+.height-ticks {
+  stroke: transparent;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+/* display: none; */
 }
 text {
   font-family: 'Fira Sans', sans-serif;
   text-rendering: optimizeLegibility;
   font-size: 22px;
-  font-weight: 200;
-  fill: #000;
+  font-weight: 300;
+  fill: #c70000;
 }
 .styled-select {
+  display: inline-block;
+  position: relative;
+  padding: 3px 5px;
+  margin-top: -3px;
   cursor: pointer;
   z-index: 9;
-  font-weight: 200;
-  right: 0;
-  color: #000;
-  font-size: 2.5rem;
-  margin: 4rem 2rem 0;
-  position: relative;
-  padding: 1.5rem 1.25rem;
-  line-height: 1;
-  display: inline-block;
-  float: right;
+  font-weight: 300;
+  position: absolute;
 }
 .styled-select:hover {
   color: #fff;
   background: #000;
+}
+.styled-select div:after {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 11px solid #c70000;
+  content: '';
+  opacity: 0.8;
+  margin-top: -5px;
+  margin-left: 9px;
+  position: absolute;
+  top: 50%;
+}
+.styled-select:hover div:after {
+  border-top: 11px solid #fff;
+  opacity: 0.75;
 }
 .styled-select select {
   opacity: 0;
@@ -256,83 +211,83 @@ text {
   width: 100%;
   cursor: pointer;
 }
+.styled-select {
+  right: 0;
+  color: #c70000;
+  font-size: 25px;
+  margin: 32px 32px 0;
+  padding: 1.25em 1.5em 1em 1em;
+  border-radius: 0.5em;
+  line-height: 0;
+}
 .current-point {
-  fill: #000;
+  fill: #c70000;
 }
 .horizontal-marker,
 .vertical-marker {
-  fill: #000;
-  stroke: #000;
+  fill: #c70000;
+  stroke: #c70000;
   shape-rendering: crispEdges;
 }
 .tick-background {
   fill: rgba(0,0,0,0);
 }
 .special {
-  text-transform: uppercase;
+  text-transform: initial;
 }
 .high-and-low {
-  color: #000;
+  color: #c70000;
+  font-size: 150%;
   list-style: none;
-  font-weight: 500;
-  font-size: 125%;
-  margin: 0 3rem;
-  line-height: 1.5;
+  font-weight: 300;
+  margin: 1rem 0;
+  line-height: 1.25;
   float: left;
-  width: 100%;
-  padding: 0;
   position: relative;
+/* margin: -1rem 0 0; */
 }
 .high-and-low ul {
   list-style: none;
 }
 .high-and-low li {
-  margin: 0 4rem 0 0;
-  float: left;
-}
-.high-and-low li span {
-  font-weight: 200;
-  margin-left: 0.25em;
+  margin: 0.5rem 0;
 }
 strong {
   font-weight: 400;
 }
-.info-view {
+h1 {
+  color: #c70000;
+  font-size: 5em;
+  font-weight: 400;
+  margin: 0;
+  float: left;
+}
+.moon-background {
+  color: #c70000;
+  font-family: moon;
+  font-size: 3.8rem;
   position: absolute;
-  bottom: 0;
-  width: 100%;
+  left: 50%;
+  top: -1rem;
+  padding: 4.05rem;
 }
 .moon {
+  color: #000;
   font-family: moon;
-  padding: 0;
-  float: left;
-  display: inline-block;
-  font-size: 4.5em;
-  margin: 4rem;
+  font-size: 4em;
+  position: absolute;
+  left: 50%;
+  top: -1rem;
+  padding: 1em;
+/* text-transform: uppercase; */
 }
 .date {
   display: none;
 }
 .current {
-  margin-left: 3rem;
-  float: left;
+  margin-left: 5rem;
 }
 .current p {
-  margin: 2rem 0 0.5rem 0rem;
-  text-transform: uppercase;
-  font-weight: 200;
-  font-size: 1.25rem;
+  margin: 2rem 0 -0.5rem 0rem;
 }
-.current h1 {
-  font-size: 5em;
-  font-weight: 200;
-  margin: 0 0 1rem -0.25rem;
-  float: left;
-}
-.current h2 {
-  font-size: 2.5em;
-  font-weight: 200;
-  margin: 0 0 0 -0.25rem;
-  float: left;
-}
-/*# sourceMappingURL=tide/css/app.css.map */
+/*# sourceMappingURL=tide/css/app-night.css.map */

@@ -1,16 +1,20 @@
 'use strict';
 
+var angular = require('angular');
 
-// Declare app level module which depends on filters, and services
-angular.module('tideApp', [
-    'ngRoute'
-    ,'tideApp.filters'
-    ,'tideApp.services'
-    ,'tideApp.directives'
-    ,'tideApp.controllers'
-]).
-config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-    $locationProvider.html5Mode(true)
-    $routeProvider.when('/tide/', {templateUrl: 'partials/find-station.html', controller: 'findStation'})
-    $routeProvider.when('/tide/:lat,:lon', {templateUrl: 'partials/tide-view.html', controller: 'station'})
-}]);
+require('angular-route');
+
+var app = angular.module('tideApp', ['ngRoute']);
+
+require('./services');
+require('./formatting');
+require('./controllers');
+require('./directives');
+require('./chart');
+
+app.constant('_', require('lodash'));
+app.constant('SunCalc', require('suncalc'));
+app.constant('d3', require('d3'));
+app.constant('moment', require('moment'));
+
+app.config(require('./routes'));

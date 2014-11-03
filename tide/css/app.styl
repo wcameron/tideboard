@@ -1,0 +1,362 @@
+primary-color = black
+
+@font-face 
+  font-family: 'moon'
+  src: url('../fonts/moon.woff') format('woff')
+
+@font-face
+    font-family: 'Fira Sans'
+    font-weight: 200
+    src: url('../fonts/FiraSans-ExtraLight.woff') format('woff')
+
+@font-face
+    font-family: 'Fira Sans'
+    font-weight: 300
+    src: url('../fonts/FiraSans-Light.woff') format('woff')
+
+@font-face
+    font-family: 'Fira Sans'
+    font-weight: 500
+    src: url('../fonts/FiraSans-Medium.woff') format('woff')
+
+body 
+    font-family: 'Fira Sans', sans-serif
+    margin: 0
+    background: white
+    overflow: hidden
+
+a 
+    color: white
+    text-decoration: none
+    font-weight: 400
+    margin: 0 1em
+
+a.next 
+    right: 0%
+    left: auto
+
+a.previous 
+    right: auto
+    left: 0%
+
+.current-time-label
+    font-size: 2.5rem
+    font-weight: 200
+    margin: 1rem 0 0 2.75rem
+    float: left
+
+.nearest-tide-label
+    font-size: 1.25rem
+    font-weight: 200
+    color: gray
+    margin: 1.75rem 2.75rem 0 1rem
+    float: right
+
+.chart-view
+    position: relative
+    clear: both
+    top: -2.25rem
+
+#chart 
+    top: 0
+    right: 3rem
+    bottom: 0
+    left: 3rem
+    position: absolute
+    overflow-y: hidden
+    //background: url('../img/subtle_carbon_@2X.png')
+    //background-size: 18px 15px
+    overflow-x: auto
+    background: transparent
+    //background: rgba(0, 0, 0, 0.12)
+    -webkit-overflow-scrolling: touch
+    z-index: -1
+
+
+#chart:before 
+    display: block
+    content: ''
+    position: absolute
+    left: 0
+    bottom: 45px
+    right: 0
+    top: 50px
+    background: rgba(0,0,0,0.12)
+    z-index: -4
+
+
+#grid 
+    top: 0rem
+    right: 0rem
+    bottom: auto
+    width:100%
+    left: 0rem
+    position: absolute
+    overflow: hidden
+    z-index: 2
+    pointer-events: none
+
+
+.height-grid 
+    position: fixed
+
+
+.controls 
+    position: absolute
+    display: none
+    bottom: 1em
+    text-align: center
+    right: 0
+    width: 400px
+
+
+.inspected-tide-value,
+.current-tide-value 
+    font-size: 55px
+    font-weight: 300
+    text-anchor: start
+    alignment-baseline: text-before-edge
+
+
+.inspected-time,
+.current-time 
+    font-size: 22px
+    font-weight: 300
+    text-anchor: start
+    alignment-baseline: text-before-edge
+
+.current-tide-value 
+    font-weight: 400
+    alignment-baseline: auto
+    display: inline
+
+.current-tide-value tspan 
+    font-weight: 300
+    display: inline
+
+
+.inspected-time,
+.inspected-tide-value 
+    font-size: 22px
+    text-transform: uppercase
+    alignment-baseline: text-after-edge
+
+path 
+    stroke: primary-color
+    stroke-width: 2px
+    /* fill: none */
+    fill: primary-color
+
+line 
+    stroke: black
+
+.area 
+    stroke: transparent
+    /* fill: #A9A9A9 */
+    fill: transparent
+    display: none
+
+.duckduck 
+    background: red
+
+.overlay 
+    fill: transparent
+    stroke: transparent
+
+.current-marker 
+    stroke: primary-color
+    stroke-width: 1
+    shape-rendering: crispEdges
+    stroke-linecap: square
+
+
+.solar 
+    stroke: primary-color
+    stroke-width: 2
+    shape-rendering: crispEdges
+    stroke-linecap: square
+
+.day-naut-dawn 
+    fill: rgba(255,255,255, 0.31)
+
+
+.day-dawn 
+    fill: rgba(255,255,255, 0.71)
+
+
+.day-sun 
+    fill: white
+
+.color 
+    fill: none
+    stroke: primary-color
+
+.current-point 
+    stroke-width: 5
+    fill: primary-color
+
+
+.time-label 
+    font-size: 1rem
+    text-anchor: middle
+    font-weight: 300
+    text-transform: uppercase
+
+.date-label 
+    text-anchor: middle
+    font-size: 14px
+    text-transform: uppercase
+
+.time-tick 
+    stroke: primary-color
+    stroke-width: 1
+    shape-rendering: crispEdges
+
+.thick-time-tick
+    stroke: primary-color
+    stroke-width: 2
+    shape-rendering: crispEdges
+
+.time-circle 
+    stroke: primary-color
+    stroke-width: 1
+
+
+.midnight-ticks 
+    stroke-width: 4
+
+
+.height-label 
+    font-size: 1rem
+    font-weight: 300
+    alignment-baseline: middle
+    text-anchor: end
+
+.right-height-label
+    font-size: 1rem
+    font-weight: 300
+    alignment-baseline: middle
+    text-anchor: start
+    
+text 
+    font-family: 'Fira Sans', sans-serif
+    text-rendering: optimizeLegibility
+    font-size: 22px
+    font-weight: 200
+    fill: primary-color
+
+.styled-select 
+    cursor: pointer
+    z-index: 9
+    font-weight: 200
+    right: 0;
+    color: primary-color
+    font-size: 2.5rem;
+    margin: 4rem 2rem 0; 
+    position: relative;
+    padding: 1.5rem 1.25rem;
+    line-height: 1;
+    display: inline-block;
+    float: right;
+
+
+.styled-select:hover 
+    color: #fff
+    background: black
+
+
+.styled-select select 
+    opacity: 0
+    position: absolute
+    border: none
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    width: 100%
+    cursor: pointer
+
+.current-point 
+    fill: primary-color
+
+.horizontal-marker,
+.vertical-marker 
+    fill: primary-color
+    stroke: primary-color
+    shape-rendering: crispEdges
+
+
+.tick-background 
+    fill: rgba(0, 0, 0, 0)
+
+
+.special 
+    text-transform: uppercase
+
+
+.high-and-low 
+    color primary-color
+    list-style none
+    font-weight 500
+    font-size 125%
+    margin 0 3rem
+    line-height 1.5
+    float left
+    width 100%
+    padding 0
+    position relative
+
+
+.high-and-low ul 
+    list-style: none
+
+
+.high-and-low li 
+    margin: 0 4rem 0 0
+    float: left
+        span
+            font-weight 200
+            margin-left .25em
+
+
+strong 
+    font-weight: 400
+
+
+.info-view 
+    position: absolute
+    bottom: 0
+    width: 100%
+
+
+.moon
+    font-family: moon
+    padding: 0;
+    float: left;
+    display: inline-block;
+    font-size: 4.5em;
+    margin: 4rem;
+
+.date 
+    display: none
+
+
+.current 
+    margin-left 3rem
+    float left
+    p 
+        margin: 2rem 0 0.5rem 0rem
+        text-transform: uppercase
+        font-weight: 200
+        font-size 1.25rem
+    h1
+        font-size: 5em
+        font-weight: 200
+        margin: 0 0 1rem -0.25rem
+        float: left
+    h2
+        font-size: 2.5em
+        font-weight: 200
+        margin: 0 0 0 -.25rem
+        float: left
+
