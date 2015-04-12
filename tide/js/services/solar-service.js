@@ -1,7 +1,8 @@
 'use strict';
-var stations = require('./stations-list');
-
-module.exports = function(SunCalc, _) {
+//var stations = require('./stations-list');
+module.exports = SolarService
+SolarService.$inject = ['SunCalc', '_']
+function SolarService(SunCalc, _) {
     function solar(times, location) {
         if (!times || !location) {
             return {}

@@ -1,6 +1,8 @@
 'use strict';
+module.exports = DateFormat;
 
-module.exports = function(d3) {
+DateFormat.$inject = ['d3']
+function DateFormat(d3) {
 	var format = d3.time.format('%B% %e, %Y');
 	return function(input) {
 		if (input){

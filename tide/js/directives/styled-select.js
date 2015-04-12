@@ -1,6 +1,8 @@
 'use strict';
+module.exports = StyledSelect
 
-module.exports = function(_) {
+StyledSelect.$inject = ['_']
+function StyledSelect(_) {
     return {
         restrict: 'A'
         ,link: function(scope, elm, attr){

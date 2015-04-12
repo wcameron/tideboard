@@ -1,6 +1,8 @@
 'use strict';
+module.exports = TideService
 
-module.exports = function($q) {
+TideService.$inject = ['$q']
+function TideService($q) {
     return {
         getData: function (station, startTime, endTime) {
             var deferred = $q.defer()

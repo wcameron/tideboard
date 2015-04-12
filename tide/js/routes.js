@@ -1,6 +1,8 @@
 'use strict';
+module.exports = Routes
 
-module.exports = function($routeProvider, $locationProvider) {
+Routes.$inject = ['$routeProvider', '$locationProvider']
+function Routes($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true)
     $routeProvider.when('/', {
       templateUrl: 'partials/find-station.html'

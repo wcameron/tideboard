@@ -1,6 +1,8 @@
 'use strict';
+module.exports = DrawChart
 
-module.exports = function($interval, _) {
+DrawChart.$inject = ['$interval', '_']
+function DrawChart($interval, _) {
     function renderChart(chartData, el){
         el.empty()
         angular.element('#grid').remove()
@@ -78,13 +80,13 @@ module.exports = function($interval, _) {
 
         this.updateTime = function() {
             self.times.current = new Date()
-            drawCurrentMarker(self.times.current, self.updateInterval)
+            drawCurrentMarker(self.times, self.updateInterval)
         }
 
         this.drawChart = function() {
             drawBackground()
             drawLine()
-            drawCurrentMarker(self.times.current, self.updateInterval)
+            drawCurrentMarker(self.times, self.updateInterval)
             inspector = drawInspector(self.times.current)
             drawGrid()
 
@@ -96,23 +98,6 @@ module.exports = function($interval, _) {
         this.drawChart()
 
         function drawBackground() {
-
-
-            svg.append("linearGradient")
-              .attr("id", "temperature-gradient")
-              .attr("gradientUnits", "userSpaceOnUse")
-              .attr("x1", 0).attr("y1", y(50))
-              .attr("x2", 0).attr("y2", y(60))
-            .selectAll("stop")
-              .data([
-                {offset: "0%", color: "steelblue"},
-                {offset: "50%", color: "gray"},
-                {offset: "100%", color: "red"}
-              ])
-            .enter().append("stop")
-              .attr("offset", function(d) { return d.offset; })
-              .attr("stop-color", function(d) { return d.color; });
-
             var area = d3.svg.area()
                          .interpolate('cardinal')
                          .tension(0.8)
@@ -124,7 +109,6 @@ module.exports = function($interval, _) {
                .datum(self.yData)
                .attr('class', 'area')
                .attr('d', area)
-               .attr('style', 'url(#temperature-gradient)')
 
             var daylight = svg.selectAll('.day')
                             .data(self.solar)
@@ -299,16 +283,14 @@ module.exports = function($interval, _) {
                 .attr('x', horizontal - 2)
         }
 
-        function drawCurrentMarker(time, speed) {
+        function drawCurrentMarker(times, speed) {
           var currentMarker = svg.append('g').attr('class', 'current-marker-group')
-          var displayTime = new Date(time).setHours(0, 0, 0, 0);
-          var current = new Date().setHours(0, 0, 0, 0);
 
-          if (displayTime !== current){
+          if (!times.isCurrent){
               return false
           }
 
-          currentMarker.attr('transform', function(d){ return 'translate(' + x(time) + ', 0)'})
+          currentMarker.attr('transform', function(d){ return 'translate(' + x(times.current) + ', 0)'})
           currentMarker.append('line')
               .attr('class', 'current-marker')
               .attr('x1', 0)

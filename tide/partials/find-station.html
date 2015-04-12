@@ -1,4 +1,4 @@
-<div ng-controller="findStation" ng-cloak>
+<div ng-cloak>
     <select ng-model="currentStation"
             styled-select="true"
             ng-options="(station.name + ', ' + station.state) for station in stationList | orderBy:name"

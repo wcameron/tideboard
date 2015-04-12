@@ -1,6 +1,8 @@
 'use strict';
+module.exports = FindStation
 
-module.exports = function($scope, $location, stationsService) {
+FindStation.$inject = ['$scope', '$location', 'stationsService']
+function FindStation($scope, $location, stationsService) {
     $scope.currentStation = {}
     $scope.stationList = stationsService.allStations
 

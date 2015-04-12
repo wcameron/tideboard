@@ -1,6 +1,8 @@
 'use strict';
+module.exports = StationCtrl;
 
-module.exports = function($scope, $location, $window, $routeParams, solarService, stationsService, tideService, tideData) {
+StationCtrl.$inject = ['$scope', '$location', '$window', '$routeParams', 'solarService', 'stationsService', 'tideService', 'tideData']
+function StationCtrl($scope, $location, $window, $routeParams, solarService, stationsService, tideService, tideData) {
     $scope.currentStation = stationsService.findStation($routeParams.lat, $routeParams.lon)
     $scope.stationList = stationsService.allStations
     $window.document.title = $scope.currentStation.name + ' Tides'
@@ -11,13 +13,18 @@ module.exports = function($scope, $location, $window, $routeParams, solarService
 
     function setTimes(time){
         var current = new Date(time),
+            day = new Date(time).setHours(0, 0, 0, 0),
+            currentDay = new Date().setHours(0, 0, 0, 0),
             start = new Date(time),
             end = new Date(time),
             timezone = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
+        
         start.setHours(0, 0, 0, 0)
         end.setHours(24, 0, 0, 0)
+
         return {
             current: current
+            ,isCurrent:  day === currentDay
             ,start: start
             ,end: end
             ,displayTimezone: timezone
