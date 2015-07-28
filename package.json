@@ -6,10 +6,14 @@
     "angular-route": "./tide/lib/angular-1.2.2/angular-route.min.js"
   },
   "dependencies": {
+    "compression": "^1.5.1",
     "d3": "*",
+    "errorhandler": "^1.4.1",
+    "express": "^4.13.1",
+    "lodash": "*",
     "moment": "*",
-    "suncalc": "*",
-    "lodash": "*"
+    "morgan": "^1.6.1",
+    "suncalc": "*"
   },
   "devDependencies": {
     "gulp": "^3.8.10",
@@ -19,5 +23,8 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.0.0"
   },
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "scripts": {
+      "start": "node server/app.js"
+  }
 }

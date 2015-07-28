@@ -8,7 +8,7 @@ function StationCtrl($scope, $location, $window, $routeParams, solarService, sta
     $window.document.title = $scope.currentStation.name + ' Tides'
 
     $scope.setStation = function(){
-        $location.path($scope.currentStation.lat + ',' + $scope.currentStation.lon)
+        $location.path('#/' + $scope.currentStation.lat + ',' + $scope.currentStation.lon)
     }
 
     function setTimes(time){
@@ -18,7 +18,7 @@ function StationCtrl($scope, $location, $window, $routeParams, solarService, sta
             start = new Date(time),
             end = new Date(time),
             timezone = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
-        
+
         start.setHours(0, 0, 0, 0)
         end.setHours(24, 0, 0, 0)
 

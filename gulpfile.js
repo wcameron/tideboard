@@ -17,6 +17,10 @@ gulp.task('default', function() {
   var bundle = function() {
     return bundler
       .bundle()
+      .on('error', function (err) {
+            console.log(err.toString());
+            this.emit("end");
+        })
       .pipe(source('bundle.js'))
       .pipe(buffer())
       .pipe(sourcemaps.init({loadMaps: true}))
