@@ -2,8 +2,8 @@
   "name": "Tides",
   "description": "View daily tides and daylight.",
   "browser": {
-    "angular": "./tide/lib/angular-1.2.2/angular-index.js",
-    "angular-route": "./tide/lib/angular-1.2.2/angular-route.min.js"
+    "angular": "./client/lib/angular-1.2.2/angular-index.js",
+    "angular-route": "./client/lib/angular-1.2.2/angular-route.min.js"
   },
   "dependencies": {
     "compression": "^1.5.1",

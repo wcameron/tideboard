@@ -10,7 +10,7 @@ var sourcemaps = require('gulp-sourcemaps');
 gulp.task('default', function() {
 
   var bundler = browserify({
-    entries: ['./tide/js/app.js'],
+    entries: ['./client/js/app.js'],
     debug: true
   });
 
@@ -27,7 +27,7 @@ gulp.task('default', function() {
         // Add transformation tasks to the pipeline here.
 //        .pipe(uglify())
       .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./tide/build/'));
+      .pipe(gulp.dest('./client/build/'));
   };
 
   return bundle();
