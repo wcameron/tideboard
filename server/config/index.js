@@ -10,5 +10,5 @@ module.exports = {
   root: path.normalize(path.join(__dirname, '../..')),
 
   // Server port
-  port: 5000
+  port: process.env.PORT || 5000,
 };
