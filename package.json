@@ -23,6 +23,9 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.0.0"
   },
+  "engines": {
+    "node": "0.10.x"
+  },
   "version": "0.1.0",
   "scripts": {
       "start": "node server/app.js"
