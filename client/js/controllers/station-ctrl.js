@@ -8,7 +8,7 @@ function StationCtrl($scope, $location, $window, $routeParams, solarService, sta
     $window.document.title = $scope.currentStation.name + ' Tides'
 
     $scope.setStation = function(){
-        $location.path('#/' + $scope.currentStation.lat + ',' + $scope.currentStation.lon)
+        $location.path($scope.currentStation.lat + ',' + $scope.currentStation.lon)
     }
 
     function setTimes(time){

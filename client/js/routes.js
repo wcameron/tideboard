@@ -3,6 +3,7 @@ module.exports = Routes
 
 Routes.$inject = ['$routeProvider', '$locationProvider']
 function Routes($routeProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
     $routeProvider.when('/', {
       templateUrl: '/partials/find-station.html'
       ,controller: 'findStation'

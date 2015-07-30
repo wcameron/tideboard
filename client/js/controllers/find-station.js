@@ -7,7 +7,7 @@ function FindStation($scope, $location, stationsService) {
     $scope.stationList = stationsService.allStations
 
     $scope.setStation = function(){
-        $location.path('#/' + $scope.currentStation.lat + ',' + $scope.currentStation.lon)
+        $location.path($scope.currentStation.lat + ',' + $scope.currentStation.lon)
     }
 
     function foundStation(station){
