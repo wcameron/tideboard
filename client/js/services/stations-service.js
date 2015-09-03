@@ -1,5 +1,5 @@
 'use strict';
-var stations = require('./stations-list');
+var stations = require('./stations-list')
 
 module.exports = StationsService
 StationsService.$inject = ['$q', '$routeParams', '_']
@@ -15,7 +15,7 @@ function StationsService($q, $routeParams, _) {
              var lat2 = lat2 * Math.PI / 180;
 
              var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                     Math.sin(dLon/2) * Math.sin(dLon/2) * 
+                     Math.sin(dLon/2) * Math.sin(dLon/2) *
                      Math.cos(lat1) * Math.cos(lat2);
 
              var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
@@ -24,6 +24,7 @@ function StationsService($q, $routeParams, _) {
         }
         function findClosest(userLat, userLon){
             var candidateStations = []
+            var closestStation
 
             for (var i = 0; self.allStations.length > i; i++){
                 var station = self.allStations[i]
@@ -33,10 +34,10 @@ function StationsService($q, $routeParams, _) {
                     candidateStations.push(station)
                 }
             }
-
-            return _.min(candidateStations, function(stat){ 
-                return stat.distance 
+            closestStation = _.min(candidateStations, function(stat){
+                return stat.distance
             })
+            return isFinite(closestStation.distance) ? closestStation : false
         }
         return findClosest(userLat, userLon)
     }
@@ -48,14 +49,15 @@ function StationsService($q, $routeParams, _) {
             if (station) {
                 deferred.resolve(station)
             } else {
-                deferred.reject(alert('Sorry, there was an error setting your location'));
+                deferred.reject(alert('Unable to find a nearby tide station'))
             }
         }
         function geoFail(){
-            // TODO
+            // TODO: better error handling/status display for user
+            alert('Unable to find location')
         }
 
-        navigator.geolocation.getCurrentPosition(geoSucceed, geoFail, {enableHighAccuracy: true});
+        navigator.geolocation.getCurrentPosition(geoSucceed, geoFail, {enableHighAccuracy: true})
 
         return deferred.promise;
     }
