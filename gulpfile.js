@@ -30,7 +30,7 @@ function bundle(watch) {
         b = watchify(browserify(opts));
         b.on('update', bundle); // on any dep update, runs the bundler
     } else {
-        opts = customOpts;
+        opts = browserifyOpts;
         b = browserify(opts);
     }
 
