@@ -12,19 +12,20 @@ function TideService($q) {
             }
             startTime = formatInputDate(startTime)
             endTime = formatInputDate(endTime)
-            var requestRoot = 'http://wcameron-test.apigee.net/v1/tide-predictions/predictions?'
-            var params = encodeURI('stationId=' + 
+            var requestRoot = '/api/tides?'
+            var params = encodeURI('station=' +
                                     station.id +
-                                    '&beginDate=' +
+                                    '&begin_date=' +
                                     startTime +
-                                    '&endDate=' + 
-                                    endTime + 
+                                    '&end_date=' +
+                                    endTime +
+                                    '&product=' +
+                                    'predictions' +
                                     '&datum=MLLW&unit=1&timeZone=0&dataInterval=6')
             var url = requestRoot + params
 
             $.ajax({url: url }).done(function(response){
-                var tideData = response.soapenv_Envelope.soapenv_Body.PredictionsValues.data.item
-                deferred.resolve(tideData)
+                deferred.resolve(JSON.parse(response))
             })
             return deferred.promise;
         },
@@ -36,19 +37,20 @@ function TideService($q) {
             }
             startTime = formatInputDate(startTime)
             endTime = formatInputDate(endTime)
-            var requestRoot = 'http://wcameron-test.apigee.net/highlowtidepred/highlowtidepredictions?'
-            var params = encodeURI('stationId=' + 
+            var requestRoot = '/api/highlow?'
+            var params = encodeURI('station=' +
                                     station.id +
-                                    '&beginDate=' +
+                                    '&begin_date=' +
                                     startTime +
-                                    '&endDate=' + 
-                                    endTime + 
+                                    '&end_date=' +
+                                    endTime +
+                                    '&product=' +
+                                    'high_low' +
                                     '&datum=MLLW&unit=0&timeZone=1')
             var url = requestRoot + params
 
             $.ajax({url: url }).done(function(response){
-                var tideData = response.Envelope.Body.HighLowValues.HighLowValues.item
-                deferred.resolve(tideData)
+                deferred.resolve(JSON.parse(response))
             })
             return deferred.promise;
         }

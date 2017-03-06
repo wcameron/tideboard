@@ -31,9 +31,9 @@ function DrawChart($interval, _) {
         }
 
         _.each(chartData.data.tideLines, function(hour){
-            var responseFormat = d3.time.format.utc('%m/%d/%Y %H:%M')
-            hour.x = responseFormat.parse(hour.timeStamp)
-            hour.y = parseFloat(hour.pred)
+            var responseFormat = d3.time.format.utc('%Y-%m-%d %H:%M')
+            hour.x = responseFormat.parse(hour.t)
+            hour.y = parseFloat(hour.v)
 
             self.data.push({ value: hour.y, date: hour.x })
 
@@ -219,7 +219,8 @@ function DrawChart($interval, _) {
                 .enter().append('line')
                 .attr('class', 'vertical-marker')
                 .attr('x1', 48)
-                .attr('y2', function(d){ return y(self.data[d].value) })
+                .attr('y2', function(d){
+                    return y(self.data[d].value) })
                 .attr('x2', 58)
                 .attr('y1', function(d){ return y(self.data[d].value)})
         }
@@ -297,7 +298,7 @@ function DrawChart($interval, _) {
               .attr('y2', height - 45)
               .attr('x2', 0)
               .attr('y1', 51)
-        } 
+        }
     }
     return renderChart
 };

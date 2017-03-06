@@ -57,14 +57,13 @@ function StationCtrl($scope, $location, $window, $routeParams, solarService, sta
                 var responseFormat = d3.time.format.utc('%m/%d/%Y%H:%M')
                 var displayFormat = d3.time.format('%I:%M %p')
                 day.data.forEach(function(tide){
-                    var time = responseFormat.parse(day.date + tide.time)
+                    var time = responseFormat.parse(day.$.date + tide.time[0])
                     var processedTide = {
-                        date: responseFormat.parse(day.date + tide.time),
+                        date: responseFormat.parse(day.$.date + tide.time[0]),
                         time: displayFormat(time),
-                        pred: tide.pred,
-                        type: tide.type
+                        pred: tide.pred[0],
+                        type: tide.type[0]
                     }
-
                     if (processedTide.date.getDate() === date.getDate()){
                         dailyHighLows.push(processedTide)
                     }

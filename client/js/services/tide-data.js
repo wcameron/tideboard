@@ -11,11 +11,11 @@ function TideData(moment, _) {
     function getTide(inputData, time){
         var tide,
             timePoint,
-            responseFormat = d3.time.format.utc('%m/%d/%Y %H:%M')
+            responseFormat = d3.time.format.utc('%Y-%m-%d %H:%M')
 
         _.each(inputData.data.tideLines, function(hour){
-            hour.x = responseFormat.parse(hour.timeStamp)
-            hour.y = parseFloat(hour.pred)
+            hour.x = responseFormat.parse(hour.t)
+            hour.y = parseFloat(hour.v)
 
             data.push({ value: hour.y, date: hour.x })
 
@@ -25,7 +25,6 @@ function TideData(moment, _) {
 
         timePoint = bisect(data, time);
         tide = yData[timePoint]
-
         return tide
     }
     function getNearHighLow(inputHighLowData, time){
