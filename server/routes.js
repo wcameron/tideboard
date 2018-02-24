@@ -3,9 +3,12 @@
 const path = require('path')
 const errors = require('./components/errors')
 const request = require('request')
+const cors = require('cors')
 const parseString = require('xml2js').parseString
 
 module.exports = function (app) {
+
+   app.use(cors())
 
    app.get('/api/tides', function (req, res) {
        var q = req.query; // station: 8454000; begin_date: 20130808 15:00; end_date=20130808 15:06;
@@ -30,24 +33,26 @@ module.exports = function (app) {
    })
 
    app.get('/api/highlow', function (req, res) {
+       // https://tidesandcurrents.noaa.gov/api/datagetter?begin_date=20130101 10:00&end_date=20130101 10:24&station=8454000&product=high_low&datum=mllw&units=metric&time_zone=gmt&application=web_services&format=xml
+
        var q = req.query; // station: 8454000; begin_date: 20130808 15:00; end_date=20130808 15:06;
-       var requestURL = `https://opendap.co-ops.nos.noaa.gov/axis/webservices/highlowtidepred/response.jsp`
+       var requestURL = `https://tidesandcurrents.noaa.gov/api/datagetter`
        var params = {
-           beginDate: q.begin_date,
-           endDate: q.end_date,
-           stationId: q.station,
-           unit: 1,
-           timeZone: '1',
+           begin_date: q.begin_date,
+           end_date: q.end_date,
+           station: q.station,
+           product: 'predictions',
+           units: 'english',
+           interval: 'hilo',
+           time_zone: 'gmt',
            application: 'tideboard',
-           format: 'xml',
+           format: 'json',
            datum: 'MLLW'
        }
        request({url:requestURL, qs:params}, function (error, response, body) {
-
            if (!error && response.statusCode == 200) {
-               parseString(body, function (err, result) {
-                   res.send(JSON.stringify(result['soapenv:Envelope']['soapenv:Body'][0]['HighLowAndMetadata'][0]['HighLowValues'][0]['item']))
-               });
+               var result = JSON.parse(body)
+               res.send(drawBody(result.predictions));
            }
        })
    })

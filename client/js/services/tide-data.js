@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = TideData
-TideData.$inject = ['moment', '_']
-function TideData(moment, _) {
+TideData.$inject = ['moment', '_', 'd3']
+function TideData(moment, _, d3) {
     var data = [],
         yData = [],
         xData = [],

@@ -1,8 +1,9 @@
 'use strict';
 module.exports = TideService
 
-TideService.$inject = ['$q']
-function TideService($q) {
+TideService.$inject = ['$q', 'd3']
+function TideService($q, d3) {
+    const apiURL = 'http://localhost:5000/api'
     return {
         getData: function (station, startTime, endTime) {
             var deferred = $q.defer()
@@ -12,7 +13,7 @@ function TideService($q) {
             }
             startTime = formatInputDate(startTime)
             endTime = formatInputDate(endTime)
-            var requestRoot = '/api/tides?'
+            var requestRoot = `${apiURL}/tides?`
             var params = encodeURI('station=' +
                                     station.id +
                                     '&begin_date=' +
@@ -37,7 +38,7 @@ function TideService($q) {
             }
             startTime = formatInputDate(startTime)
             endTime = formatInputDate(endTime)
-            var requestRoot = '/api/highlow?'
+            var requestRoot = `${apiURL}/highlow?`
             var params = encodeURI('station=' +
                                     station.id +
                                     '&begin_date=' +
@@ -45,8 +46,8 @@ function TideService($q) {
                                     '&end_date=' +
                                     endTime +
                                     '&product=' +
-                                    'high_low' +
-                                    '&datum=MLLW&unit=0&timeZone=1')
+                                    'predictions' +
+                                    '&datum=MLLW&unit=1&timeZone=0&dataInterval=hilo')
             var url = requestRoot + params
 
             $.ajax({url: url }).done(function(response){

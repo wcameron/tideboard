@@ -27,12 +27,19 @@
     "watchify": "^3.4.0",
     "xml2js": "^0.4.17"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "copy-webpack-plugin": "^4.4.1",
+    "stylus": "^0.54.5",
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.1"
+  },
   "engines": {
     "node": "4.4.0"
   },
   "version": "0.1.5",
   "scripts": {
+    "watch:stylus": "./node_modules/stylus/bin/stylus -w client/static/css/app.styl -o public/",
+    "dev": "./node_modules/.bin/webpack-dev-server --inline --hot & npm run watch:stylus",
     "postinstall": "gulp",
     "start": "node server/app.js"
   }

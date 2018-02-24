@@ -1,8 +1,8 @@
 'use strict';
 module.exports = DrawChart
 
-DrawChart.$inject = ['$interval', '_']
-function DrawChart($interval, _) {
+DrawChart.$inject = ['$interval', '_', 'd3']
+function DrawChart($interval, _, d3) {
     function renderChart(chartData, el){
         el.empty()
         angular.element('#grid').remove()
@@ -45,9 +45,9 @@ function DrawChart($interval, _) {
         var tideDiff = d3.max(self.yData) - d3.min(self.yData)
 
         var width = el.width() * (self.times.dayCount)
-        var height = window.innerHeight * .67
-        if (window.innerHeight * .67 > width * .67){
-            height = width * .67
+        var height = window.innerHeight * .77
+        if (window.innerHeight * .77 > width * .77){
+            height = width * .77
         }
 
         var y = d3.scale.linear()

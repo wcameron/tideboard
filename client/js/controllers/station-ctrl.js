@@ -1,8 +1,8 @@
 'use strict';
 module.exports = StationCtrl;
 
-StationCtrl.$inject = ['$scope', '$location', '$window', '$routeParams', 'solarService', 'stationsService', 'tideService', 'tideData']
-function StationCtrl($scope, $location, $window, $routeParams, solarService, stationsService, tideService, tideData) {
+StationCtrl.$inject = ['$scope', '$location', '$window', '$routeParams', 'solarService', 'stationsService', 'tideService', 'tideData', 'd3']
+function StationCtrl($scope, $location, $window, $routeParams, solarService, stationsService, tideService, tideData, d3) {
     $scope.currentStation = stationsService.findStation($routeParams.lat, $routeParams.lon)
     $scope.stationList = stationsService.allStations
     $window.document.title = $scope.currentStation.name + ' Tides'
@@ -53,24 +53,22 @@ function StationCtrl($scope, $location, $window, $routeParams, solarService, sta
         })
         highLowData.then(function(highLows){
             var dailyHighLows = []
-            highLows.forEach(function(day){
-                var responseFormat = d3.time.format.utc('%m/%d/%Y%H:%M')
+            highLows.forEach(function(tideValues){
+                var responseFormat = d3.time.format.utc('%Y-%m-%d %H:%M')
                 var displayFormat = d3.time.format('%I:%M %p')
-                day.data.forEach(function(tide){
-                    var time = responseFormat.parse(day.$.date + tide.time[0])
-                    var processedTide = {
-                        date: responseFormat.parse(day.$.date + tide.time[0]),
-                        time: displayFormat(time),
-                        pred: tide.pred[0],
-                        type: tide.type[0]
-                    }
-                    if (processedTide.date.getDate() === date.getDate()){
-                        dailyHighLows.push(processedTide)
-                    }
-                })
+                var time = responseFormat.parse(tideValues.t)
+                var processedTide = {
+                    date: responseFormat.parse(tideValues.t),
+                    time: displayFormat(time),
+                    pred: tideValues.v,
+                    type: tideValues.type
+                }
+                if (processedTide.date.getDate() === date.getDate()){
+                    dailyHighLows.push(processedTide)
+                }
             })
             $scope.highLows = dailyHighLows
-            $scope.nearTide = tideData.getNearHighLow($scope.highLows, $scope.times.current);
+            $scope.nearTide = tideData.getNearHighLow($scope.highLows, $scope.times.current)
         })
 
     }
