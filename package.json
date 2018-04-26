@@ -34,13 +34,13 @@
     "webpack-dev-server": "^2.11.1"
   },
   "engines": {
-    "node": "4.4.0"
+    "node": "8.9.4"
   },
   "version": "0.1.5",
   "scripts": {
     "watch:stylus": "./node_modules/stylus/bin/stylus -w client/static/css/app.styl -o public/",
     "dev": "./node_modules/.bin/webpack-dev-server --inline --hot & npm run watch:stylus",
-    "postinstall": "gulp",
+    "postinstall": "npx webpack",
     "start": "node server/app.js"
   }
 }
