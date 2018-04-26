@@ -3,7 +3,7 @@ module.exports = TideService
 
 TideService.$inject = ['$q', 'd3']
 function TideService($q, d3) {
-    const apiURL = 'http://localhost:5000/api'
+    const apiURL = '/api'
     return {
         getData: function (station, startTime, endTime) {
             var deferred = $q.defer()
