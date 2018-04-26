@@ -1,0 +1,30 @@
+<div ng-cloak>
+    <select ng-model="currentStation"
+        styled-select="true"
+        ng-options="(station.name + ', ' + station.state) for station in stationList | orderBy:name"
+        ng-change="setStation()">
+        <option value="" disabled>Choose a station...</option>
+    </select>
+    <h2 class="current-time-label">{{chartData.times.current | dateFormat}}</h2>
+    <div class="moon">{{chartData.solar[0].moon.phase | moon}}</div>
+    <!--<button ng-click="previousDay()">-</button><button ng-click="nextDay()">+</button>-->
+    <ul class="high-and-low">
+        <li ng-repeat="tide in highLows"
+            >{{tide.pred}} {{tide.type}} <span>{{tide.time}}</span>
+        </li>
+    </ul>
+    <div class="chart-view">
+        <div id="chart" day-graph="chartData"></div>
+    </div>
+    <div class="info-view">
+        <div class="date">
+            <a ng-click="previousDay()" class="previous">-</a>
+            <strong>{{highLows.date}}</strong>
+            <a ng-click="nextDay()" class="next">+</a>
+        </div>
+        <div class="current" ng-show="chartData.times.isCurrent">
+            <p>Currently <br/><strong>{{currentTide.tide.toFixed(1)}}</strong> ft</p>
+            <p class="nearest-tide-label" ng-show="chartData.times.isCurrent">{{nearTide}}</p>
+        </div>
+    </div>
+</div>
