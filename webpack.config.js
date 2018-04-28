@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 
 module.exports = {
@@ -11,7 +12,8 @@ module.exports = {
   plugins: [
         new CopyWebpackPlugin([{
             from: 'client/static'
-        }])
+        }]),
+        new UglifyJsPlugin()
     ],
   devtool: 'inline-source-map',
   output: {
