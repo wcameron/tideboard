@@ -1,9 +1,14 @@
-primary-color = #00ff76
 general-background = black
-label-color = primary-color
+label-color = #00b4ff
 primary-font-size = 2.5rem
 secondary-font-size = 1.25rem
 tertiary-font-size = 1rem
+
+:root {
+    --primary-color: #00b4ff
+    --label-color: var(--primary-color)
+    font-family: 'Sans Serif'
+}
 
 
 @font-face
@@ -30,7 +35,7 @@ body
     margin: 0
     background: general-background
     overflow: hidden
-    color: primary-color
+    color: var(--primary-color)
 
 a
     color: white
@@ -160,10 +165,10 @@ a.previous
     alignment-baseline: text-after-edge
 
 path
-    stroke: primary-color
+    stroke: var(--primary-color)
     stroke-width: 2px
     /* fill: none */
-    fill: primary-color
+    fill: var(--primary-color)
 
 line
     stroke: black
@@ -182,14 +187,14 @@ line
     stroke: transparent
 
 .current-marker
-    stroke: primary-color
+    stroke: var(--primary-color)
     stroke-width: 1
     shape-rendering: crispEdges
     stroke-linecap: square
 
 
 .solar
-    stroke: primary-color
+    stroke: var(--primary-color)
     stroke-width: 2
     shape-rendering: crispEdges
     stroke-linecap: square
@@ -207,16 +212,16 @@ line
 
 .color
     fill: none
-    stroke: primary-color
+    stroke: var(--primary-color)
 
 .current-point
     stroke-width: 5
-    fill: primary-color
+    fill: var(--primary-color)
 
 
 .time-label
     font-size: tertiary-font-size
-    fill: label-color
+    fill: var(--label-color)
     text-anchor: middle
     font-weight: 300
     text-transform: uppercase
@@ -224,21 +229,21 @@ line
 .date-label
     text-anchor: middle
     font-size: tertiary-font-size
-    fill label-color
+    fill var(--label-color)
     text-transform: uppercase
 
 .time-tick
-    stroke: primary-color
+    stroke: var(--primary-color)
     stroke-width: 1
     shape-rendering: crispEdges
 
 .thick-time-tick
-    stroke: primary-color
+    stroke: var(--primary-color)
     stroke-width: 2
     shape-rendering: crispEdges
 
 .time-circle
-    stroke: primary-color
+    stroke: var(--primary-color)
     stroke-width: 1
 
 
@@ -248,14 +253,14 @@ line
 
 .height-label
     font-size: tertiary-font-size
-    fill: label-color
+    fill: var(--label-color)
     font-weight: 300
     alignment-baseline: middle
     text-anchor: end
 
 .right-height-label
     font-size: tertiary-font-size
-    fill: label-color
+    fill: var(--label-color)
     font-weight: 300
     alignment-baseline: middle
     text-anchor: start
@@ -265,7 +270,7 @@ line
     z-index: 9
     font-weight: 200
     right: 0;
-    color: primary-color
+    color: var(--primary-color)
     font-size: primary-font-size;
     margin: 0 2rem 0;
     position: relative;
@@ -292,12 +297,12 @@ line
     cursor: pointer
 
 .current-point
-    fill: primary-color
+    fill: var(--primary-color)
 
 .horizontal-marker,
 .vertical-marker
-    fill: primary-color
-    stroke: primary-color
+    fill: var(--primary-color)
+    stroke: var(--primary-color)
     shape-rendering: crispEdges
 
 
@@ -310,7 +315,7 @@ line
 
 
 .high-and-low
-    color primary-color
+    color var(--primary-color)
     list-style none
     font-weight 500
     font-size secondary-font-size
@@ -352,11 +357,11 @@ strong
     font-weight: 200
     font-size tertiary-font-size
     display: flex;
-    color: label-color
+    color: var(--label-color)
     justify-content: space-between;
     strong
         font-weight 500
-        color: primary-color
+        color: var(--primary-color)
         font-size: secondary-font-size
 
 
@@ -365,7 +370,7 @@ text
     text-rendering: optimizeLegibility
     font-size: secondary-font-size
     font-weight: 200
-    fill: primary-color
+    fill: var(--primary-color)
 
 
 .loader,

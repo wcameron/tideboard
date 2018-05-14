@@ -8,7 +8,6 @@
   "dependencies": {
     "browserify": "^11.0.0",
     "compression": "^1.5.1",
-    "cors": "^2.8.4",
     "d3": "3.5.6",
     "errorhandler": "^1.4.1",
     "express": "^4.13.1",
@@ -30,6 +29,7 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.4.1",
+    "cors": "^2.8.4",
     "stylus": "^0.54.5",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^3.11.0",
@@ -40,7 +40,7 @@
   },
   "version": "0.1.5",
   "scripts": {
-    "watch:stylus": "./node_modules/stylus/bin/stylus -w client/static/css/app.styl -o public/",
+    "watch:stylus": "./node_modules/stylus/bin/stylus -w client/static/css/app.styl -o public/css/",
     "dev": "./node_modules/.bin/webpack-dev-server --inline --hot & npm run watch:stylus",
     "postinstall": "./node_modules/.bin/webpack",
     "start": "node server/app.js"
