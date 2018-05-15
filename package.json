@@ -42,7 +42,7 @@
   "scripts": {
     "watch:stylus": "./node_modules/stylus/bin/stylus -w client/static/css/app.styl -o public/css/",
     "dev": "./node_modules/.bin/webpack-dev-server --inline --hot & npm run watch:stylus",
-    "postinstall": "./node_modules/.bin/webpack",
+    "postinstall": "npx stylus client/static/css/app.styl -o public/css/ && npx webpack",
     "start": "node server/app.js"
   }
 }
