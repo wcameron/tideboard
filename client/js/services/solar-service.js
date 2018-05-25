@@ -8,20 +8,28 @@ function SolarService(SunCalc, _) {
             return {}
         }
         var oneDay = 24*60*60*1000
-        var diffDays = Math.round(Math.abs((times.start.getTime() - times.end.getTime())/(oneDay)))
-        var days = [{
-            date: times.start
-        }]
+        var days = getDays(times.start, times.end)
+        function getDays(startTime, endTime){
+            var diffDays = Math.round(Math.abs((startTime.getTime() - endTime.getTime())/(oneDay)))
+            var days = [{
+                date: times.start
+            }]
 
-        for (var i = 1; i <= diffDays; i++){
-            var nextDate = new Date(times.start.getTime())
-            nextDate.setTime((nextDate.getTime() + oneDay * i))
-            days.push({date: nextDate})
+            for (var i = 1; i <= diffDays; i++){
+                var nextDate = new Date(times.start.getTime())
+                nextDate.setTime((nextDate.getTime() + oneDay * i))
+                days.push({date: nextDate})
+            }
+            return days;
         }
 
-        _.each(days, function(day){
+        function buildSolarObject(day){
             var solarTimes = SunCalc.getTimes(day.date, location.lat, location.lon)
+            debugger
             var moonPhase = SunCalc.getMoonIllumination(day.date)
+            var endDate = new Date(day.date.getTime())
+            endDate.setTime((endDate.getTime() + oneDay))
+            day.end = endDate
             day.sunrise = solarTimes.sunrise
             day.sunset = solarTimes.sunset
             day.dusk = solarTimes.dusk
@@ -29,8 +37,11 @@ function SolarService(SunCalc, _) {
             day.nauticalDusk = solarTimes.nauticalDusk
             day.nauticalDawn = solarTimes.nauticalDawn
             day.moon = moonPhase
-        })
-        console.log(location.lat)
+            return day
+        }
+
+        return _.each(days, buildSolarObject)
+
         return days
     }
     return solar;

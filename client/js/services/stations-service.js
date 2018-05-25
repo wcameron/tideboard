@@ -1,10 +1,10 @@
 'use strict';
-var stations = require('./stations-list')
+var stations = require('./../../stations.json')
 
 module.exports = StationsService
 StationsService.$inject = ['$q', '$routeParams', '_']
 function StationsService($q, $routeParams, _) {
-    this.allStations =  stations();
+    this.allStations =  stations;
     this.findStation = function(userLat, userLon) {
         var self = this
         function distance(lat1, lon1, lat2, lon2){

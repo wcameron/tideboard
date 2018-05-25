@@ -1,5 +1,5 @@
 {
-  "name": "Tides",
+  "name": "Tidepage",
   "description": "View daily tides and daylight.",
   "browser": {
     "angular": "./client/lib/angular-1.2.2/angular-index.js",
@@ -20,6 +20,7 @@
     "moment": "*",
     "morgan": "^1.6.1",
     "node-static": "^0.7.4",
+    "postcss-loader": "^2.1.5",
     "request": "^2.80.0",
     "suncalc": "*",
     "vinyl-buffer": "^1.0.0",
@@ -28,21 +29,30 @@
     "xml2js": "^0.4.17"
   },
   "devDependencies": {
+    "autoprefixer": "^8.5.0",
     "copy-webpack-plugin": "^4.4.1",
     "cors": "^2.8.4",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "geo-tz": "^4.0.1",
+    "moment-timezone": "^0.5.17",
+    "precss": "^3.1.2",
+    "style-loader": "^0.21.0",
     "stylus": "^0.54.5",
     "uglifyjs-webpack-plugin": "^1.2.5",
-    "webpack": "^3.11.0",
-    "webpack-dev-server": "^2.11.1"
+    "url-loader": "^1.0.1",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "^v3.1.4",
+    "webpack-serve": "^1.0.2"
   },
   "engines": {
     "node": "8.9.4"
   },
   "version": "0.1.5",
   "scripts": {
-    "watch:stylus": "./node_modules/stylus/bin/stylus -w client/static/css/app.styl -o public/css/",
-    "dev": "./node_modules/.bin/webpack-dev-server --inline --hot & npm run watch:stylus",
-    "postinstall": "mkdir -p public/css/ && npx stylus client/static/css/app.styl -o public/css/ && npx webpack",
+    "dev": "npx webpack-dev-server --inline --hot --config webpack.dev.js ",
+    "postinstall": "npx webpack --config webpack.production.js",
     "start": "node server/app.js"
   }
 }

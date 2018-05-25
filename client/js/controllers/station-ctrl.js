@@ -1,8 +1,8 @@
 'use strict';
 module.exports = StationCtrl;
 
-StationCtrl.$inject = ['$scope', '$location', '$window', '$routeParams', 'solarService', 'stationsService', 'tideService', 'tideData', 'd3']
-function StationCtrl($scope, $location, $window, $routeParams, solarService, stationsService, tideService, tideData, d3) {
+StationCtrl.$inject = ['$scope', '$location', '$window', '$routeParams', 'solarService', 'stationsService', 'tideService', 'tideData', 'd3', 'moment']
+function StationCtrl($scope, $location, $window, $routeParams, solarService, stationsService, tideService, tideData, d3, moment) {
     $scope.currentStation = stationsService.findStation($routeParams.lat, $routeParams.lon)
     $scope.stationList = stationsService.allStations
     $window.document.title = $scope.currentStation.name + ' Tides'

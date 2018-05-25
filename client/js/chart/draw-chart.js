@@ -110,28 +110,44 @@ function DrawChart($interval, _, d3) {
                .attr('class', 'area')
                .attr('d', area)
 
+            var daylightMargin = -95;
             var daylight = svg.selectAll('.day')
                             .data(self.solar)
                             .enter()
                             .append('g').attr('class', 'daylight')
+                            .attr('transform', 'translate(0, 49)')
+
+
+            function validStartTime(time, day){
+                return isFinite(time) ? time : day.date;
+            }
+
+            function validEndTime(time, day){
+                return isFinite(time) ? time : day.end;
+            }
 
             daylight.append('rect')
                 .attr('class', 'day-naut-dawn')
-                .attr('x', function(d){ return x(d.nauticalDawn) })
-                .attr('width', function(d){ return x(d.nauticalDusk) - x(d.nauticalDawn) })
-                .attr('height', height + 17)
+                .attr('x', function(d){
+                    return x(validStartTime(d.nauticalDawn, d)) })
+                .attr('width', function(d){
+                    return x(validEndTime(d.nauticalDusk, d)) - x(validStartTime(d.nauticalDawn, d)) })
+                .attr('height', height + daylightMargin)
 
             daylight.append('rect')
                 .attr('class', 'day-dawn')
-                .attr('x', function(d){ return x(d.dawn) })
-                .attr('width', function(d){ return x(d.dusk) - x(d.dawn) })
-                .attr('height', height + 17)
+                .attr('x', function(d){ return x(validStartTime(d.dawn, d)) })
+                .attr('width', function(d){
+                    return x(validEndTime(d.dusk, d)) - x(validStartTime(d.dawn, d)) })
+                .attr('height', height + daylightMargin)
 
             daylight.append('rect')
                 .attr('class', 'day-sun')
-                .attr('x', function(d){ return x(d.sunrise) })
-                .attr('width', function(d){ return x(d.sunset) - x(d.sunrise) })
-                .attr('height', height + 17)
+                .attr('x', function(d){
+                    return x(validStartTime(d.sunrise, d)) })
+                .attr('width', function(d){
+                    return x(validEndTime(d.sunset, d)) - x(validStartTime(d.sunrise, d)) })
+                .attr('height', height + daylightMargin)
 
             var timeAxis = x.copy().domain([self.xData[16], self.xData[dataLength - 8]])
 

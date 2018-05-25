@@ -1,4 +1,5 @@
 'use strict';
+import './../styles/app.css';
 
 var angular = require('angular');
 
