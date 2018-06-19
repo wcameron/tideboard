@@ -13,8 +13,8 @@ function StationCtrl($scope, $location, $window, $routeParams, solarService, sta
 
     function setTimes(time){
         var current = new Date(time),
-            day = new Date(time).setHours(0, 0, 0, 0),
-            currentDay = new Date().setHours(0, 0, 0, 0),
+            day = new Date(time).setUTCHours(0, 0, 0, 0),
+            currentDay = new Date().setUTCHours(0, 0, 0, 0),
             start = new Date(time),
             end = new Date(time),
             timezone = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
@@ -45,30 +45,32 @@ function StationCtrl($scope, $location, $window, $routeParams, solarService, sta
                 }
                 ,solar: solarService($scope.times, station)
                 ,times: $scope.times
+                ,station: station
             }
             $scope.currentTide = {
                 tide: tideData.getTide($scope.chartData, $scope.chartData.times.current),
                 date: $scope.chartData.times.current
             }
+            $scope.$apply()
         })
         highLowData.then(function(highLows){
             var dailyHighLows = []
             highLows.forEach(function(tideValues){
-                var responseFormat = d3.time.format.utc('%Y-%m-%d %H:%M')
-                var displayFormat = d3.time.format('%I:%M %p')
-                var time = responseFormat.parse(tideValues.t)
+                var tideTime = moment.utc(tideValues.t).tz(station.tz)
+                var displayTime = tideTime.format('hh:mm A')
                 var processedTide = {
-                    date: responseFormat.parse(tideValues.t),
-                    time: displayFormat(time),
+                    date: tideTime,
+                    time: tideTime.format('hh:mm A'),
                     pred: tideValues.v,
                     type: tideValues.type
                 }
-                if (processedTide.date.getDate() === date.getDate()){
+                if (processedTide.date.get('date') === date.getDate()){
                     dailyHighLows.push(processedTide)
                 }
             })
             $scope.highLows = dailyHighLows
             $scope.nearTide = tideData.getNearHighLow($scope.highLows, $scope.times.current)
+            $scope.$apply()
         })
 
     }

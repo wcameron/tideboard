@@ -2,8 +2,8 @@
 var stations = require('./../../stations.json')
 
 module.exports = StationsService
-StationsService.$inject = ['$q', '$routeParams', '_']
-function StationsService($q, $routeParams, _) {
+StationsService.$inject = ['$q', '$routeParams']
+function StationsService($q, $routeParams) {
     this.allStations =  stations;
     this.findStation = function(userLat, userLon) {
         var self = this
@@ -24,20 +24,18 @@ function StationsService($q, $routeParams, _) {
         }
         function findClosest(userLat, userLon){
             var candidateStations = []
-            var closestStation
+            var closestStation = null
+            var distanceToNearestStation = 500 // If far away from a tide station don't bother
 
             for (var i = 0; self.allStations.length > i; i++){
                 var station = self.allStations[i]
                 var d = distance(userLat, userLon, station.lat, station.lon)
-                if (d < 500){
-                    station.distance = d
-                    candidateStations.push(station)
+                if (d < distanceToNearestStation){
+                    distanceToNearestStation = d
+                    closestStation = station
                 }
             }
-            closestStation = _.min(candidateStations, function(stat){
-                return stat.distance
-            })
-            return isFinite(closestStation.distance) ? closestStation : false
+            return closestStation !== null ? closestStation : false
         }
         return findClosest(userLat, userLon)
     }

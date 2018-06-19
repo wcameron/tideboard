@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = TideData
-TideData.$inject = ['moment', '_', 'd3']
-function TideData(moment, _, d3) {
+TideData.$inject = ['moment', 'd3']
+function TideData(moment, d3) {
     var data = [],
         yData = [],
         xData = [],
@@ -13,7 +13,7 @@ function TideData(moment, _, d3) {
             timePoint,
             responseFormat = d3.time.format.utc('%Y-%m-%d %H:%M')
 
-        _.each(inputData.data.tideLines, function(hour){
+        inputData.data.tideLines.forEach(function(hour){
             hour.x = responseFormat.parse(hour.t)
             hour.y = parseFloat(hour.v)
 
@@ -31,13 +31,12 @@ function TideData(moment, _, d3) {
         var current = time.getTime()
         var nearestTide
         inputHighLowData.forEach(function(tide){
-            tide.diff = tide.date.getTime() - current
+            tide.diff = tide.date.valueOf() - current
             if (!nearestTide || Math.abs(nearestTide.diff) > Math.abs(tide.diff)){
                 nearestTide = tide
             }
         })
-
-        var when = moment(nearestTide.date)
+        var when = moment(nearestTide.date).tz('UTC')
         var now = moment(time)
         var type = nearestTide.type === 'H' ? 'High tide' : 'Low tide'
         var time = nearestTide.diff > 0 ? 'is ' + when.from(now) : 'was ' + when.from(now)

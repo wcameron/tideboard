@@ -5,7 +5,7 @@
         ng-change="setStation()">
         <option value="" disabled>Choose a station...</option>
     </select>
-    <h2 class="current-time-label">{{chartData.times.current | dateFormat}}</h2>
+    <h2 class="current-time-label">{{chartData.times.current | dateFormat:currentStation.tz}}</h2>
     <div class="moon">{{chartData.solar[0].moon.phase | moon}}</div>
     <!--<button ng-click="previousDay()">-</button><button ng-click="nextDay()">+</button>-->
     <ul class="high-and-low">

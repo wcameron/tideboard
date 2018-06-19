@@ -1,36 +1,48 @@
 'use strict';
 module.exports = DrawChart
 
-DrawChart.$inject = ['$interval', '_', 'd3']
-function DrawChart($interval, _, d3) {
+DrawChart.$inject = ['$interval', 'd3', 'moment']
+function DrawChart($interval, d3, moment) {
     function renderChart(chartData, el){
-        el.empty()
-        angular.element('#grid').remove()
+        el.html('')
+        angular.element(document.getElementById('grid')).remove()
         var gridEl = angular.element('<div id="grid">')
         el.after(gridEl)
 
         var self = this
+
         this.data = []
         this.times = chartData.times
         this.solar = chartData.solar
+        this.station = chartData.station
         this.yData = []
         this.xData = []
         this.updateInterval = 1000 // ms
+
+        function setTimezone(input){
+            if (typeof input.getTimezoneOffset != 'function'){
+                return input
+            }
+            return moment(input).tz(self.station.tz)
+        }
+
         this.timeLabelFormat = function(time){
-            var hour = time.getHours(),
-                format
+            var hour,
+                format;
+
+            time = setTimezone(time)
+            hour = time.get('hour')
+
             if (hour === 0){
-                format = d3.time.format('%b %e')
-                return format(time)
+                return time.format('MMM D')
             } else if (hour === 12){
                 return 'Noon'
             } else {
-                format = d3.time.format('%I %p')
-                return format(time)
+                return time.format('h A')
               }
         }
 
-        _.each(chartData.data.tideLines, function(hour){
+        chartData.data.tideLines.forEach(function(hour){
             var responseFormat = d3.time.format.utc('%Y-%m-%d %H:%M')
             hour.x = responseFormat.parse(hour.t)
             hour.y = parseFloat(hour.v)
@@ -43,8 +55,7 @@ function DrawChart($interval, _, d3) {
 
         var dataLength = self.data.length - 1
         var tideDiff = d3.max(self.yData) - d3.min(self.yData)
-
-        var width = el.width() * (self.times.dayCount)
+        var width = el[0].clientWidth * (self.times.dayCount)
         var height = window.innerHeight * .77
         if (window.innerHeight * .77 > width * .77){
             height = width * .77
@@ -54,11 +65,11 @@ function DrawChart($interval, _, d3) {
                 .domain([(d3.min(self.yData) - tideDiff * .25),
                         (d3.max(self.yData) + tideDiff * .25)])
                 .range([height, 0])
-        var x = d3.time.scale()
-                .domain([self.xData[0], self.xData[dataLength]])
+        var x = d3.chrono.scale(self.station.tz)
+                .domain([setTimezone(self.xData[0]), setTimezone(self.xData[dataLength])])
                 .range([0, width])
 
-        el.css({height: height})
+        el.attr('style', `height: ${height}px`)
 
         var svg = d3.select(el[0])
             .append('svg')
@@ -68,7 +79,7 @@ function DrawChart($interval, _, d3) {
         var gridAxis = y.copy()
                       .domain([(d3.min(self.yData) - tideDiff * .15),
                              (d3.max(self.yData) + tideDiff * .15)])
-        var gridWidth = gridEl.width()
+        var gridWidth = gridEl[0].clientWidth
         var grid = d3.select(gridEl[0])
                      .append('svg')
                      .attr('width', gridWidth)
@@ -110,7 +121,7 @@ function DrawChart($interval, _, d3) {
                .attr('class', 'area')
                .attr('d', area)
 
-            var daylightMargin = -95;
+            var daylightMargin = -94;
             var daylight = svg.selectAll('.day')
                             .data(self.solar)
                             .enter()
@@ -191,7 +202,7 @@ function DrawChart($interval, _, d3) {
                 .data(timeAxis.ticks(6 * self.times.dayCount))
                 .enter().append('text')
                 .attr('class', function(d){
-                    if (!(d.getHours() % 12)){
+                    if (!(d.get('hour') % 12)){
                         return 'time-label special'
                     }
                     return 'time-label'

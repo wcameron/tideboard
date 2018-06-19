@@ -1,10 +1,9 @@
 'use strict';
-//var stations = require('./stations-list');
 module.exports = SolarService
-SolarService.$inject = ['SunCalc', '_']
-function SolarService(SunCalc, _) {
-    function solar(times, location) {
-        if (!times || !location) {
+SolarService.$inject = ['SunCalc', 'moment']
+function SolarService(SunCalc, moment) {
+    function solar(times, station) {
+        if (!times || !station) {
             return {}
         }
         var oneDay = 24*60*60*1000
@@ -23,26 +22,27 @@ function SolarService(SunCalc, _) {
             return days;
         }
 
+        function setTimezone(input){
+            return moment(input).tz(station.tz)
+        }
+
         function buildSolarObject(day){
-            var solarTimes = SunCalc.getTimes(day.date, location.lat, location.lon)
-            debugger
+            var solarTimes = SunCalc.getTimes(day.date, station.lat, station.lon)
             var moonPhase = SunCalc.getMoonIllumination(day.date)
             var endDate = new Date(day.date.getTime())
             endDate.setTime((endDate.getTime() + oneDay))
             day.end = endDate
-            day.sunrise = solarTimes.sunrise
-            day.sunset = solarTimes.sunset
-            day.dusk = solarTimes.dusk
-            day.dawn = solarTimes.dawn
-            day.nauticalDusk = solarTimes.nauticalDusk
-            day.nauticalDawn = solarTimes.nauticalDawn
+            day.sunrise = setTimezone(solarTimes.sunrise)
+            day.sunset = setTimezone(solarTimes.sunset)
+            day.dusk = setTimezone(solarTimes.dusk)
+            day.dawn = setTimezone(solarTimes.dawn)
+            day.nauticalDusk = setTimezone(solarTimes.nauticalDusk)
+            day.nauticalDawn = setTimezone(solarTimes.nauticalDawn)
             day.moon = moonPhase
             return day
         }
 
-        return _.each(days, buildSolarObject)
-
-        return days
+        return days.map(buildSolarObject)
     }
     return solar;
 };

@@ -1,20 +1,22 @@
 'use strict';
 module.exports = StyledSelect
+const isEmpty = require('lodash.isempty')
 
-StyledSelect.$inject = ['_']
-function StyledSelect(_) {
+StyledSelect.$inject = []
+function StyledSelect() {
     return {
         restrict: 'A'
         ,link: function(scope, elm, attr){
+
+            elm.wrap('<div class="styled-select"></div>')
             elm.after('<div></div>')
-            elm.add(elm.next()).wrapAll('<div class="styled-select"></div>')
 
             scope.$watch(attr.ngModel, function(v){
                 var currentOption;
-                if (_.isEmpty(v)) {
-                    currentOption = elm.children().first().text()
+                if (isEmpty(v)) {
+                    currentOption = elm[0].options[0].text
                 } else {
-                    currentOption = elm.find(':selected').text()
+                    currentOption = elm[0].options[elm[0].selectedIndex].text
                 }
                 elm.next().text(currentOption)
             })
