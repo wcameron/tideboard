@@ -3,7 +3,7 @@ module.exports = TideService
 
 TideService.$inject = ['$q', 'd3']
 function TideService($q, d3) {
-    const apiURL = '//localhost:5000/api'
+    const apiURL = '/api'
     function formatInputDate(date){
         var formatTime = d3.time.format.utc('%Y%m%d %H:%M')
         return formatTime(date).toString()
