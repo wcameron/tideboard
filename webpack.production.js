@@ -23,7 +23,10 @@ module.exports = {
         }),
         new webpack.ContextReplacementPlugin(
             /moment[\/\\]locale$/, /en/
-        )
+        ),
+        new webpack.DefinePlugin({
+            API_URL: JSON.stringify('/api')
+        })
     ],
     devtool: 'source-map',
     output: {

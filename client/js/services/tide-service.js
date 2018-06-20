@@ -3,7 +3,7 @@ module.exports = TideService
 
 TideService.$inject = ['$q', 'd3']
 function TideService($q, d3) {
-    const apiURL = '/api'
+    const apiURL = API_URL // URL defined in webpack build
     function formatInputDate(date){
         var formatTime = d3.time.format.utc('%Y%m%d %H:%M')
         return formatTime(date).toString()
